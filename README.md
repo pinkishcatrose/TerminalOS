@@ -1,4 +1,8 @@
-# TerminalOS
-An "operating system" that runs inside windows terminal
+# TerminalOS Batch || TerminalOS Java
+TerminalOS is a glorified manager for your packages
 
-TerminalOS is more of a test right now, I'm still getting things up and running how they should be
+TerminalOSJ Is capable of listing and running .jar files within its "Applications" folder
+TerminalOSB Is capable of listing and running .bat files within its "Applications" folder
+
+# Launching TerminalOSJ
+Double click on the .jar file, and it will create a launch script on your desktop. open that and your good to go
