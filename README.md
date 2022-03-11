@@ -1,4 +1,4 @@
-TerminalOS Java
+# TerminalOS Java
 TerminalOS is a glorified manager for your packages
 
 TerminalOSJ Is capable of listing and running .jar files within its "Applications" folder
