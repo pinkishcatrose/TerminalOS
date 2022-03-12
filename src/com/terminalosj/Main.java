@@ -97,7 +97,7 @@ public class Main {
                     .getPath();
             String jarPath = jarPath0.replaceAll("\\s", "\\\\ ");
             Path shfileName = Path.of(homeFolder + "/Desktop/LaunchTerminalOS.sh");
-            String content  = "#!/bin/sh\necho -n -e \"\\033]0;TerminalOS Java\\007\"\njava -jar " + jarPath;
+            String content  = "#!/bin/sh\necho -n -e \"\\033]0;TerminalOS\\007\"\njava -jar " + jarPath;
             Files.writeString(shfileName, content);
             String actual = Files.readString(shfileName);
         }
@@ -109,7 +109,7 @@ public class Main {
         final String os = System.getProperty("os.name"); //detect OS
         if (os.contains("Mac")) {
             ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.command("bash", "-c", "printf '\\e[8;30;120t'").inheritIO().start().waitFor();
+            processBuilder.command("bash", "-c", "printf '\\e[8;40;150t'").inheritIO().start().waitFor();
         }
         cls();
         animlogoTOSlogo2();
@@ -130,12 +130,12 @@ public class Main {
         cls();
 
         //perform first time setup or replace missing files
-        new File("./TerminalOSJ/Applications").mkdirs();
-        new File("./TerminalOSJ/SystemApps").mkdirs();
-        new File("./TerminalOSJ/Resources").mkdirs();
-        new File("./TerminalOSJ/Settings").mkdirs();
+        new File("./TerminalOS/Applications").mkdirs();
+        new File("./TerminalOS/SystemApps").mkdirs();
+        new File("./TerminalOS/Resources").mkdirs();
+        new File("./TerminalOS/Settings").mkdirs();
         try { //create login txt
-            File login = new File("./TerminalOSJ/Settings/login.txt");
+            File login = new File("./TerminalOS/Settings/login.txt");
             if (login.createNewFile()) {
                 System.out.println("File created: " + login.getName());
             } else {
@@ -168,7 +168,7 @@ public class Main {
         String exit = "E";
         String Settings = "S";
         if (userinput.equals(openapps)) {
-            File file = new File ("./TerminalOSJ/Applications");
+            File file = new File ("./TerminalOS/Applications");
             Desktop desktop = Desktop.getDesktop();
             desktop.open(file);
             cls();
@@ -182,11 +182,11 @@ public class Main {
                 final String os = System.getProperty("os.name");
                 if (os.contains("Windows")) {
                     String currentDirectory = System.getProperty("user.dir");
-                    new ProcessBuilder("cmd", "/c", "call \"" + currentDirectory + "\\TerminalOSJ\\Applications\\" + userinput + "\"").inheritIO().start().waitFor();
+                    new ProcessBuilder("cmd", "/c", "call \"" + currentDirectory + "\\TerminalOS\\Applications\\" + userinput + "\"").inheritIO().start().waitFor();
                     new ProcessBuilder("cmd", "/c", "title TerminalOS").inheritIO().start().waitFor();
                     System.out.print(Color.RESET);
                 } else {
-                    System.out.println(Color.RED_BACKGROUND_BRIGHT + "   -- TerminalOS does not support BATCH on your current host OS (" + os + ") --  " + Color.RESET);
+                    System.out.println(Color.RED_BACKGROUND_BRIGHT + "   -- TerminalOS does not support BATCH on your current host OS (" + os + ") --   " + Color.RESET);
                     onesecondpause();
                     onesecondpause();
                     onesecondpause();
@@ -197,10 +197,10 @@ public class Main {
                 cls();
                 final String os = System.getProperty("os.name");
                 if (os.contains("Windows")) {
-                    new ProcessBuilder("cmd", "/c", "java -jar \"./TerminalOSJ/Applications/" + userinput + "\"").inheritIO().start().waitFor();
+                    new ProcessBuilder("cmd", "/c", "java -jar \"./TerminalOS/Applications/" + userinput + "\"").inheritIO().start().waitFor();
                 } else {
                     ProcessBuilder processBuilder = new ProcessBuilder();
-                    processBuilder.command("bash", "-c", "java -jar ./TerminalOSJ/Applications/" + userinput).inheritIO().start().waitFor();
+                    processBuilder.command("bash", "-c", "java -jar ./TerminalOS/Applications/" + userinput).inheritIO().start().waitFor();
                 }
             }
         }
@@ -209,9 +209,9 @@ public class Main {
 
     // Built in Login Application..
     static void login() throws IOException, InterruptedException, URISyntaxException {
-        new File("./TerminalOSJ/Settings").mkdirs();
+        new File("./TerminalOS/Settings").mkdirs();
         try { //create login txt
-            File login = new File("./TerminalOSJ/Settings/login.txt");
+            File login = new File("./TerminalOS/Settings/login.txt");
             if (login.createNewFile()) {
             } else {
             }
@@ -220,7 +220,7 @@ public class Main {
             e.printStackTrace();
         }
         cls();
-        BufferedReader brTest = new BufferedReader(new FileReader("./TerminalOSJ/Settings/login.txt"));
+        BufferedReader brTest = new BufferedReader(new FileReader("./TerminalOS/Settings/login.txt"));
         String pass = brTest.readLine();
         logoTOSlogo();
         if (pass == null) {
@@ -228,7 +228,7 @@ public class Main {
             Scanner Input = new Scanner(System.in);  // Create a Scanner object
             System.out.println("  Listening > ");
             String inputpass = Input.nextLine(); // Read user input
-            PrintWriter writepass = new PrintWriter("./TerminalOSJ/Settings/login.txt", "UTF-8");
+            PrintWriter writepass = new PrintWriter("./TerminalOS/Settings/login.txt", "UTF-8");
             writepass.println(inputpass);
             writepass.close();
             cls();
@@ -278,7 +278,7 @@ public class Main {
            mainmenu();
         }else if (userinput.equals(resetpass)) {
             //String fileName = "./TerminalOSJ/Settings/login.txt";
-            PrintWriter writepass = new PrintWriter("./TerminalOSJ/Settings/login.txt", "UTF-8");
+            PrintWriter writepass = new PrintWriter("./TerminalOS/Settings/login.txt", "UTF-8");
             writepass.print("");
             writepass.close();
             login();
@@ -321,14 +321,14 @@ public class Main {
         System.out.println("???????????7.       ");
         seperator();
         if (os.contains("Windows")) {
-            System.out.println("TerminalOS Directory: " + currentDirectory + "\\TerminalOSJ");
+            System.out.println("TerminalOS Directory: " + currentDirectory + "\\TerminalOS");
         } else {
-            System.out.println("TerminalOS Directory: " + currentDirectory + "/TerminalOSJ");
+            System.out.println("TerminalOS Directory: " + currentDirectory + "/TerminalOS");
         }
         System.out.println("Current User: " + userName);
         seperator();
         logo();
-        System.out.println("\n TerminalOS Version: " + Color.BLUE_BRIGHT + "TerminalOS v0.1.1" + Color.RESET);
+        System.out.println("\n TerminalOS Version: " + Color.BLUE_BRIGHT + "TerminalOS v0.1.2" + Color.RESET);
 
         Scanner Input = new Scanner(System.in);  // User Input
         smolpause();
@@ -488,7 +488,7 @@ public class Main {
     }
     public static void apps() throws IOException {
         //Creating a File object for directory
-        File directoryPath = new File("./TerminalOSJ/Applications");
+        File directoryPath = new File("./TerminalOS/Applications");
         FilenameFilter batFilefilter = new FilenameFilter(){
             public boolean accept(File dir, String name) {
                 String lowercaseName = name.toLowerCase();
@@ -507,7 +507,7 @@ public class Main {
     }
     public static void bapps() throws IOException {
         //Creating a File object for directory
-        File directoryPath = new File("./TerminalOSJ/Applications");
+        File directoryPath = new File("./TerminalOS/Applications");
         FilenameFilter batFilefilter = new FilenameFilter(){
             public boolean accept(File dir, String name) {
                 String lowercaseName = name.toLowerCase();
