@@ -1,9 +1,9 @@
-# TerminalOS Java
+# TerminalOS
 TerminalOS is a glorified manager for your packages
 
 TerminalOSJ Is capable of listing and running .jar and .bat files within its "Applications" folder
 
-# Launching TerminalOSJ
+# Launching TerminalOS
 Double click on the .jar file, and it will create a launch script on your desktop. open that and your good to go
 
 **Java 17 Required, TerminalOS will not launch without it**
