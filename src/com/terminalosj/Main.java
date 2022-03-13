@@ -17,6 +17,17 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import com.profesorfalken.jsensors.JSensors;
+import com.profesorfalken.jsensors.model.components.Component;
+import com.profesorfalken.jsensors.model.components.Components;
+import com.profesorfalken.jsensors.model.components.Cpu;
+import com.profesorfalken.jsensors.model.components.Disk;
+import com.profesorfalken.jsensors.model.components.Gpu;
+import com.profesorfalken.jsensors.model.sensors.Fan;
+import com.profesorfalken.jsensors.model.sensors.Load;
+import com.profesorfalken.jsensors.model.sensors.Temperature;
+import oshi.software.os.OperatingSystem;
+
 
 public class Main {
     // Startup Scripts
@@ -160,10 +171,12 @@ public class Main {
             Desktop desktop = Desktop.getDesktop();
             desktop.open(file);
             cls();
-        }else if (userinput.equals(exit)) {
+        }
+        if (userinput.equals(exit)) {
             cls();
             System.exit(0);
-        }else if (userinput.equals(Settings)) {
+        }
+        if (userinput.equals(Settings)) {
             Settings();
         } else { // this launches user selected jar / bat
             if (userinput.endsWith(".bat")) {
@@ -174,7 +187,9 @@ public class Main {
                     new ProcessBuilder("cmd", "/c", "title TerminalOS").inheritIO().start().waitFor();
                     System.out.print(Color.RESET);
                 } else {
-                    System.out.println(Color.RED_BACKGROUND_BRIGHT + "   -- TerminalOS does not support BATCH on your current host OS (" + os + ") --   " + Color.RESET);
+                    SystemInfo systemInfo = new SystemInfo();
+                    OperatingSystem operatingSystem = systemInfo.getOperatingSystem();
+                    System.out.println(Color.RED_BACKGROUND_BRIGHT + "   -- TerminalOS does not support BATCH on your current host OS (" + operatingSystem.toString() + ") --   " + Color.RESET);
                     onesecondpause();
                     onesecondpause();
                     onesecondpause();
@@ -297,15 +312,16 @@ public class Main {
         double diskSizeK = diskSizeB / memorySizeDivide;
         double diskSizeM = diskSizeK / memorySizeDivide;
         double diskSizeG = diskSizeM / memorySizeDivide;
-
+        SystemInfo systemInfo = new SystemInfo();
+        OperatingSystem operatingSystem = systemInfo.getOperatingSystem();
         System.out.println("       .7???????????" + Color.CYAN_BRIGHT + "    CPU Model: " + cpuid  + Color.RESET);
         System.out.println("        !!!!!!!!????" + Color.CYAN_BOLD_BRIGHT + "        - Core Count: " + Runtime.getRuntime().availableProcessors() + Color.RESET);
-        System.out.println("               .7???");
-        System.out.println("^^^^    :^^:   .7???" + Color.MAGENTA_BRIGHT + "    System Memory: " + Math.round(memorySizeM) + " MB" + Color.RESET);
-        System.out.println("????.  .????.  .????" + Color.MAGENTA_BOLD_BRIGHT + "        - " + Math.round(memorysizeG) + " GB" + Color.RESET);
-        System.out.println("???7.   :^^^    ^^^^");
-        System.out.println("???7.               " + Color.YELLOW_BRIGHT + "    System Storage: " + Math.round(diskSizeM) + " MB" +Color.RESET);
-        System.out.println("????!!!!!!!!        " + Color.YELLOW_BRIGHT + "        - " + Math.round(diskSizeG) + " GB" +Color.RESET);
+        System.out.println("               .7???" + Color.MAGENTA_BRIGHT + "    System Memory: " + Math.round(memorySizeM) + " MB" + Color.RESET);
+        System.out.println("^^^^    :^^:   .7???" + Color.MAGENTA_BOLD_BRIGHT + "        - " + Math.round(memorysizeG) + " GB" + Color.RESET);
+        System.out.println("????.  .????.  .????" + Color.YELLOW_BRIGHT + "    System Storage: " + Math.round(diskSizeM) + " MB" +Color.RESET);
+        System.out.println("???7.   :^^^    ^^^^" + Color.YELLOW_BRIGHT + "        - " + Math.round(diskSizeG) + " GB" + Color.RESET);
+        System.out.println("???7.               "+ Color.GREEN_BRIGHT + "    Host OS: " + operatingSystem.toString() + Color.RESET);
+        System.out.println("????!!!!!!!!        ");
         System.out.println("???????????7.       ");
         seperator();
         if (os.contains("Windows")) {

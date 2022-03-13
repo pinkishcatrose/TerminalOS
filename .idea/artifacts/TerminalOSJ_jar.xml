@@ -68,6 +68,7 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/groovy-typecheckers-4.0.0-sources.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/groovy-4.0.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/groovy-nio-4.0.0-sources.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jSensors-2.0.2.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
