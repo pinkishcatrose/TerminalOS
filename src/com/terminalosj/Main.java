@@ -144,25 +144,22 @@ public class Main {
         System.out.println("\n What would you like to do?\n\n");
         System.out.println(" A > Open Applications Folder");
         System.out.println(" S > " + Color.RED_BRIGHT + "[EXPERIMENTAL]" + Color.RESET + " Settings Menu\n");
-        bapps();
+        final String ops = System.getProperty("os.name");
+        if (ops.contains("Windows")) {
+            bapps();
+        }
         apps();
-        AnsiConsole.out().println(Color.RED_BRIGHT + "\n E > Exit TerminalOS" + Color.RESET);
         Scanner Input = new Scanner(System.in);  // Create a Scanner object
         System.out.println("\n  Listening > ");
         String rawuserinput = Input.next(); // Read user input
         String userinput = rawuserinput.replaceAll("\\s", "\\\\ ");
         String openapps = "A";
-        String exit = "E";
         String Settings = "S";
         if (userinput.equals(openapps)) {
             File file = new File ("./TerminalOS/Applications");
             Desktop desktop = Desktop.getDesktop();
             desktop.open(file);
             cls();
-        }
-        if (userinput.equals(exit)) {
-            cls();
-            System.exit(0);
         }
         if (userinput.equals(Settings)) {
             Settings();
@@ -566,7 +563,7 @@ public class Main {
             }
         };
         String imageFilesList[] = directoryPath.list(batFilefilter);
-        System.out.println("\n Installed JAR Apps:");
+        System.out.println(" Installed JAR Apps:");
         for(String fileName : imageFilesList) {
             System.out.println("   " + fileName);
         }
@@ -589,6 +586,7 @@ public class Main {
         for(String fileName : imageFilesList) {
             System.out.println("   " + fileName);
         }
+        System.out.println("");
     }
     static void debuglogo() {
         System.out.println("  _____       _                 ");
