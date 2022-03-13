@@ -17,15 +17,6 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import com.profesorfalken.jsensors.JSensors;
-import com.profesorfalken.jsensors.model.components.Component;
-import com.profesorfalken.jsensors.model.components.Components;
-import com.profesorfalken.jsensors.model.components.Cpu;
-import com.profesorfalken.jsensors.model.components.Disk;
-import com.profesorfalken.jsensors.model.components.Gpu;
-import com.profesorfalken.jsensors.model.sensors.Fan;
-import com.profesorfalken.jsensors.model.sensors.Load;
-import com.profesorfalken.jsensors.model.sensors.Temperature;
 import oshi.software.os.OperatingSystem;
 
 
