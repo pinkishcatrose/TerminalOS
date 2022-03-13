@@ -1,5 +1,4 @@
 package com.terminalosj;
-
 import com.sun.jna.Memory;
 import org.fusesource.jansi.AnsiConsole;
 import oshi.SystemInfo;
@@ -18,10 +17,8 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import oshi.software.os.OperatingSystem;
-
-
 public class Main {
-    // Startup Scripts
+    // Managing Scripts
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
 
         final String os = System.getProperty("os.name");
