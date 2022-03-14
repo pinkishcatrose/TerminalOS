@@ -11,9 +11,9 @@ import java.nio.file.Path;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import oshi.software.os.OperatingSystem;
-import java.awt.Panel;
+
 import javax.swing.JFrame;
-import com.terminalosj.GUI;
+import com.terminalosj.gui.GUI;
 
 public class Main extends JFrame {
     // Managing Scripts
