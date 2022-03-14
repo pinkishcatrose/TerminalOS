@@ -1,23 +1,21 @@
 package com.terminalosj;
-import com.sun.jna.Memory;
-import org.fusesource.jansi.AnsiConsole;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.HardwareAbstractionLayer;
-
 import java.awt.*;
 import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import oshi.software.os.OperatingSystem;
-public class Main {
+import java.awt.Panel;
+import javax.swing.JFrame;
+import com.terminalosj.GUI;
+
+public class Main extends JFrame {
     // Managing Scripts
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
 
@@ -144,6 +142,7 @@ public class Main {
         System.out.println("\n What would you like to do?\n\n");
         System.out.println(" A > Open Applications Folder");
         System.out.println(" S > " + Color.RED_BRIGHT + "[EXPERIMENTAL]" + Color.RESET + " Settings Menu\n");
+        System.out.println(" G > " + Color.RED_BACKGROUND_BRIGHT + " -- [ALPHA] -- " + Color.RESET + " Launch TerminalOS G\n");
         final String ops = System.getProperty("os.name");
         if (ops.contains("Windows")) {
             bapps();
@@ -155,6 +154,7 @@ public class Main {
         String userinput = rawuserinput.replaceAll("\\s", "\\\\ ");
         String openapps = "A";
         String Settings = "S";
+        String TOSG = "G";
         if (userinput.equals(openapps)) {
             File file = new File ("./TerminalOS/Applications");
             Desktop desktop = Desktop.getDesktop();
@@ -163,6 +163,10 @@ public class Main {
         }
         if (userinput.equals(Settings)) {
             Settings();
+        }
+        if (userinput.equals(TOSG)) {
+            GUI bGUI = new GUI();
+            bGUI.bGUI();
         } else { // this launches user selected jar / bat
             if (userinput.endsWith(".bat")) {
                 final String os = System.getProperty("os.name");
@@ -171,14 +175,6 @@ public class Main {
                     new ProcessBuilder("cmd", "/c", "call \"" + currentDirectory + "\\TerminalOS\\Applications\\" + userinput + "\"").inheritIO().start().waitFor();
                     new ProcessBuilder("cmd", "/c", "title TerminalOS").inheritIO().start().waitFor();
                     System.out.print(Color.RESET);
-                } else {
-                    SystemInfo systemInfo = new SystemInfo();
-                    OperatingSystem operatingSystem = systemInfo.getOperatingSystem();
-                    System.out.println(Color.RED_BACKGROUND_BRIGHT + "   -- TerminalOS does not support BATCH on your current host OS (" + operatingSystem.toString() + ") --   " + Color.RESET);
-                    onesecondpause();
-                    onesecondpause();
-                    onesecondpause();
-                    mainmenu();
                 }
             }
             if (userinput.endsWith(".jar")) {
@@ -250,32 +246,6 @@ public class Main {
             }
         }
     }
-    // Built in Settings application..
-    static void Settings() throws IOException, URISyntaxException, InterruptedException {
-        cls();
-        settingslogo();
-        System.out.println("\n M > Return to Main Menu\n\n TerminalOSJ Settings:\n\n P > Reset TerminalOS Password\n\n S > System Information");
-        Scanner Input = new Scanner(System.in);  // Create a Scanner object
-        System.out.println("\n  Listening > ");
-        String rawuserinput = Input.nextLine(); // Read user input
-        String userinput = rawuserinput.replaceAll("\\s", "\\\\ ");
-        String mainmenu = "M";
-        String resetpass = "P";
-        String SystemInfo = "S";
-        if (userinput.equals(mainmenu)) {
-           mainmenu();
-        }else if (userinput.equals(resetpass)) {
-            //String fileName = "./TerminalOSJ/Settings/login.txt";
-            PrintWriter writepass = new PrintWriter("./TerminalOS/Settings/login.txt", "UTF-8");
-            writepass.print("");
-            writepass.close();
-            login();
-        }else if (userinput.equals(SystemInfo)) {
-            SystemInfo();
-        }else{
-            Settings();
-        }
-    }
     // Built in System Information application..
     static void SystemInfo() throws IOException, InterruptedException, URISyntaxException {
         cls();
@@ -327,51 +297,41 @@ public class Main {
         Settings();
     }
 
-    // Libraries
-    static void cls() throws IOException, InterruptedException {
-        final String os = System.getProperty("os.name");
-        if (os.contains("Windows")) {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } else {
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
+
+    // Built in Settings application..
+    static void Settings() throws IOException, URISyntaxException, InterruptedException {
+        cls();
+        settingslogo();
+        System.out.println("\n M > Return to Main Menu\n\n TerminalOSJ Settings:\n\n P > Reset TerminalOS Password\n S > System Information");
+        Scanner Input = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("\n  Listening > ");
+        String rawuserinput = Input.nextLine(); // Read user input
+        String userinput = rawuserinput.replaceAll("\\s", "\\\\ ");
+        String mainmenu = "M";
+        String resetpass = "P";
+        String SystemInfo = "S";
+        if (userinput.equals(mainmenu)) {
+            mainmenu();
+        }else if (userinput.equals(resetpass)) {
+            //String fileName = "./TerminalOSJ/Settings/login.txt";
+            PrintWriter writepass = new PrintWriter("./TerminalOS/Settings/login.txt", "UTF-8");
+            writepass.print("");
+            writepass.close();
+            login();
+        }else if (userinput.equals(SystemInfo)) {
+            SystemInfo();
+        }else{
+            Settings();
         }
     }
-    static void onesecondpause() {
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    static void shortpause() {
-        try {
-            TimeUnit.MILLISECONDS.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    static void smolpause() {
-        try {
-            TimeUnit.MILLISECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    static void smolpause2() {
-        try {
-            TimeUnit.MILLISECONDS.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    static void shortpause2() {
-        try {
-            TimeUnit.MILLISECONDS.sleep(700);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+
+    // ALPHA GUI
+
+
+    // -- LIBRARIES --
+    // big ASCII
+
+    // small ASCII
     public static void logo() {
         System.out.println(" _____                   _             _ _____ _____ ");
         System.out.println("|_   _|                 (_)           | |  _  /  ___|");
@@ -379,31 +339,6 @@ public class Main {
         System.out.println("  | |/ _ \\ '__| '_ ` _ \\| | '_ \\ / _` | | | | |`--. \\");
         System.out.println("  | |  __/ |  | | | | | | | | | | (_| | \\ \\_/ /\\__/ /");
         System.out.println("  \\_/\\___|_|  |_| |_| |_|_|_| |_|\\__,_|_|\\___/\\____/ ");
-    }
-    public static void animlogo() {
-        smolpause();
-        System.out.println(" _____                   _             _ _____ _____ ");
-        smolpause();
-        System.out.println("|_   _|                 (_)           | |  _  /  ___|");
-        smolpause();
-        System.out.println("  | | ___ _ __ _ __ ___  _ _ __   __ _| | | | \\ `--. ");
-        smolpause();
-        System.out.println("  | |/ _ \\ '__| '_ ` _ \\| | '_ \\ / _` | | | | |`--. \\");
-        smolpause();
-        System.out.println("  | |  __/ |  | | | | | | | | | | (_| | \\ \\_/ /\\__/ /");
-        smolpause();
-        System.out.println("  \\_/\\___|_|  |_| |_| |_|_|_| |_|\\__,_|_|\\___/\\____/ ");
-    }
-    public static void TOSlogo() {
-        System.out.println("       .7???????????");
-        System.out.println("        !!!!!!!!????");
-        System.out.println("               .7???");
-        System.out.println("^^^^    :^^:   .7???");
-        System.out.println("????.  .????.  .????");
-        System.out.println("???7.   :^^^    ^^^^");
-        System.out.println("???7.");
-        System.out.println("????!!!!!!!!");
-        System.out.println("???????????7.");
     }
     public static void logoTOSlogo() {
         System.out.println("       .7???????????");
@@ -414,44 +349,6 @@ public class Main {
         System.out.println("???7.   :^^^    ^^^^      | |  __/ |  | | | | | | | | | | (_| | \\ \\_/ /\\__/ /");
         System.out.println("???7.                     \\_/\\___|_|  |_| |_| |_|_|_| |_|\\__,_|_|\\___/\\____/ ");
         System.out.println("????!!!!!!!!        ");
-        System.out.println("???????????7.       ");
-    }
-    public static void animlogoTOSlogo() {
-        System.out.println("       .7???????????");
-        smolpause();
-        System.out.println("        !!!!!!!!????     _____                   _             _ _____ _____ ");
-        smolpause();
-        System.out.println("               .7???    |_   _|                 (_)           | |  _  /  ___|");
-        smolpause();
-        System.out.println("^^^^    :^^:   .7???      | | ___ _ __ _ __ ___  _ _ __   __ _| | | | \\ `--. ");
-        smolpause();
-        System.out.println("????.  .????.  .????      | |/ _ \\ '__| '_ ` _ \\| | '_ \\ / _` | | | | |`--. \\");
-        smolpause();
-        System.out.println("???7.   :^^^    ^^^^      | |  __/ |  | | | | | | | | | | (_| | \\ \\_/ /\\__/ /");
-        smolpause();
-        System.out.println("???7.                     \\_/\\___|_|  |_| |_| |_|_|_| |_|\\__,_|_|\\___/\\____/ ");
-        smolpause();
-        System.out.println("????!!!!!!!!        ");
-        smolpause();
-        System.out.println("???????????7.       ");
-    }
-    public static void animlogoTOSlogo2() {
-        System.out.println("       .7???????????");
-        smolpause2();
-        System.out.println("        !!!!!!!!????     _____                   _             _ _____ _____ ");
-        smolpause2();
-        System.out.println("               .7???    |_   _|                 (_)           | |  _  /  ___|");
-        smolpause2();
-        System.out.println("^^^^    :^^:   .7???      | | ___ _ __ _ __ ___  _ _ __   __ _| | | | \\ `--. ");
-        smolpause2();
-        System.out.println("????.  .????.  .????      | |/ _ \\ '__| '_ ` _ \\| | '_ \\ / _` | | | | |`--. \\");
-        smolpause2();
-        System.out.println("???7.   :^^^    ^^^^      | |  __/ |  | | | | | | | | | | (_| | \\ \\_/ /\\__/ /");
-        smolpause2();
-        System.out.println("???7.                     \\_/\\___|_|  |_| |_| |_|_|_| |_|\\__,_|_|\\___/\\____/ ");
-        smolpause2();
-        System.out.println("????!!!!!!!!        ");
-        smolpause2();
         System.out.println("???????????7.       ");
     }
     public static void menulogo() {
@@ -536,6 +433,108 @@ public class Main {
         System.out.println("\n Done");
         onesecondpause();
     }
+    public static void animlogo() {
+        smolpause();
+        System.out.println(" _____                   _             _ _____ _____ ");
+        smolpause();
+        System.out.println("|_   _|                 (_)           | |  _  /  ___|");
+        smolpause();
+        System.out.println("  | | ___ _ __ _ __ ___  _ _ __   __ _| | | | \\ `--. ");
+        smolpause();
+        System.out.println("  | |/ _ \\ '__| '_ ` _ \\| | '_ \\ / _` | | | | |`--. \\");
+        smolpause();
+        System.out.println("  | |  __/ |  | | | | | | | | | | (_| | \\ \\_/ /\\__/ /");
+        smolpause();
+        System.out.println("  \\_/\\___|_|  |_| |_| |_|_|_| |_|\\__,_|_|\\___/\\____/ ");
+    }
+    public static void animlogoTOSlogo2() {
+        System.out.println("       .7???????????");
+        smolpause2();
+        System.out.println("        !!!!!!!!????     _____                   _             _ _____ _____ ");
+        smolpause2();
+        System.out.println("               .7???    |_   _|                 (_)           | |  _  /  ___|");
+        smolpause2();
+        System.out.println("^^^^    :^^:   .7???      | | ___ _ __ _ __ ___  _ _ __   __ _| | | | \\ `--. ");
+        smolpause2();
+        System.out.println("????.  .????.  .????      | |/ _ \\ '__| '_ ` _ \\| | '_ \\ / _` | | | | |`--. \\");
+        smolpause2();
+        System.out.println("???7.   :^^^    ^^^^      | |  __/ |  | | | | | | | | | | (_| | \\ \\_/ /\\__/ /");
+        smolpause2();
+        System.out.println("???7.                     \\_/\\___|_|  |_| |_| |_|_|_| |_|\\__,_|_|\\___/\\____/ ");
+        smolpause2();
+        System.out.println("????!!!!!!!!        ");
+        smolpause2();
+        System.out.println("???????????7.       ");
+    }
+    static void settingslogo() {
+        System.out.println("   _____      _   _   _                 ");
+        System.out.println("  / ____|    | | | | (_)                ");
+        System.out.println(" | (___   ___| |_| |_ _ _ __   __ _ ___ ");
+        System.out.println("  \\___ \\ / _ \\ __| __| | '_ \\ / _` / __|");
+        System.out.println("  ____) |  __/ |_| |_| | | | | (_| \\__ \\");
+        System.out.println(" |_____/ \\___|\\__|\\__|_|_| |_|\\__, |___/");
+        System.out.println("                               __/ |    ");
+        System.out.println("                              |___/     ");
+    }
+    static void seperator() {
+        System.out.println("--------------------------------------------------------------------------------");
+    }
+    // functions and enums
+    static void cls() throws IOException, InterruptedException {
+        final String os = System.getProperty("os.name");
+        if (os.contains("Windows")) {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } else {
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+        }
+    }
+    static void onesecondpause() {
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    static void shortpause() {
+        try {
+            TimeUnit.MILLISECONDS.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    static void smolpause() {
+        try {
+            TimeUnit.MILLISECONDS.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    static void smolpause2() {
+        try {
+            TimeUnit.MILLISECONDS.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    static void shortpause2() {
+        try {
+            TimeUnit.MILLISECONDS.sleep(700);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void TOSlogo() {
+        System.out.println("       .7???????????");
+        System.out.println("        !!!!!!!!????");
+        System.out.println("               .7???");
+        System.out.println("^^^^    :^^:   .7???");
+        System.out.println("????.  .????.  .????");
+        System.out.println("???7.   :^^^    ^^^^");
+        System.out.println("???7.");
+        System.out.println("????!!!!!!!!");
+        System.out.println("???????????7.");
+    }
     public static void animmenulogo() {
         System.out.println("  __  __                  ");
         smolpause2();
@@ -587,29 +586,6 @@ public class Main {
             System.out.println("   " + fileName);
         }
         System.out.println("");
-    }
-    static void debuglogo() {
-        System.out.println("  _____       _                 ");
-        System.out.println(" |  __ \\     | |                ");
-        System.out.println(" | |  | | ___| |__  _   _  __ _ ");
-        System.out.println(" | |  | |/ _ \\ '_ \\| | | |/ _` |");
-        System.out.println(" | |__| |  __/ |_) | |_| | (_| |");
-        System.out.println(" |_____/ \\___|_.__/ \\__,_|\\__, |");
-        System.out.println("                           __/ |");
-        System.out.println("                          |___/ ");
-    }
-    static void settingslogo() {
-        System.out.println("   _____      _   _   _                 ");
-        System.out.println("  / ____|    | | | | (_)                ");
-        System.out.println(" | (___   ___| |_| |_ _ _ __   __ _ ___ ");
-        System.out.println("  \\___ \\ / _ \\ __| __| | '_ \\ / _` / __|");
-        System.out.println("  ____) |  __/ |_| |_| | | | | (_| \\__ \\");
-        System.out.println(" |_____/ \\___|\\__|\\__|_|_| |_|\\__, |___/");
-        System.out.println("                               __/ |    ");
-        System.out.println("                              |___/     ");
-    }
-    static void seperator() {
-        System.out.println("--------------------------------------------------------------------------------");
     }
     enum Color {
         //Color end string, color reset
