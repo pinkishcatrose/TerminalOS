@@ -314,7 +314,6 @@ public class Main extends JFrame {
         cls();
         settingslogo();
         System.out.println("\n M > Return to Main Menu\n\n TerminalOSJ Settings:\n\n P > Reset TerminalOS Password\n S > System Information");
-        System.out.println(" U > " + Color.RED_BRIGHT + "[EXPERIMENTAL]" + Color.RESET + " Update TerminalOS from git\n" + Color.RED_BRIGHT + "    ^ Requires git installed, and the JAR to be located in (user folder)/TerminalOS-updates" + Color.RESET);
         Scanner Input = new Scanner(System.in);  // Create a Scanner object
         System.out.println("\n  Listening > ");
         String rawuserinput = Input.nextLine(); // Read user input
@@ -322,7 +321,6 @@ public class Main extends JFrame {
         String mainmenu = "M";
         String resetpass = "P";
         String SystemInfo = "S";
-        String Update = "U";
         if (userinput.equals(mainmenu)) {
             mainmenu();
         }else if (userinput.equals(resetpass)) {
@@ -334,7 +332,6 @@ public class Main extends JFrame {
             login();
         }else if (userinput.equals(SystemInfo)) {
             SystemInfo();
-        }else if (userinput.equals(Update)) {
         }else{
             Settings();
         }
