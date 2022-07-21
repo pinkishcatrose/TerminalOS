@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import oshi.software.os.OperatingSystem;
+import org.apache.commons.io.FileUtils;
 
 import javax.swing.JFrame;
 import com.terminalosj.gui.GUI;
@@ -22,7 +23,7 @@ public class Main extends JFrame {
         final String os = System.getProperty("os.name");
         cls();
         String home = System.getProperty("user.home");
-        File b = new File(home + "/Desktop/LaunchTerminalOS.bat");
+        File b = new File(home + "/LaunchTerminalOS.bat");
         if (b.exists() && !b.isDirectory()) {
         } else {
             if (os.contains("Windows")) {
@@ -52,10 +53,17 @@ public class Main extends JFrame {
         final String os = System.getProperty("os.name"); //detect OS
         if (os.contains("Windows")) {
             try { //create startup scripts for windows
-                File logo = new File(homeFolder + "/Desktop/LaunchTerminalOS.bat");
+                String jarPath = Main.class
+                    .getProtectionDomain()
+                    .getCodeSource()
+                    .getLocation()
+                    .toURI()
+                    .getPath();
+            String jarPath2 = jarPath.substring(1);
+                File logo = new File(homeFolder + "\\LaunchTerminalOS.bat");
                 if (logo.createNewFile()) {
                 } else {
-                    System.out.println("BATCH Launch File created on users Desktop");
+                    System.out.println("BATCH Launch File created in users home directory");
                 }
             } catch (IOException e) {
                 System.out.println("Failed to create startup script");
@@ -69,7 +77,7 @@ public class Main extends JFrame {
                     .toURI()
                     .getPath();
             String jarPath2 = jarPath.substring(1);
-            Path batfileName = Path.of(homeFolder + "/Desktop/LaunchTerminalOS.bat");
+            Path batfileName = Path.of(homeFolder + "\\LaunchTerminalOS.bat");
             String content  = "@echo off\ntitle TerminalOS\njava -jar \"" + jarPath2 + "\"\npause";
             Files.writeString(batfileName, content);
             String actual = Files.readString(batfileName);
@@ -115,12 +123,13 @@ public class Main extends JFrame {
         cls();
 
         //perform first time setup or replace missing files
-        new File("./TerminalOS/Applications").mkdirs();
-        new File("./TerminalOS/SystemApps").mkdirs();
-        new File("./TerminalOS/Resources").mkdirs();
-        new File("./TerminalOS/Settings").mkdirs();
+        String homeFolder = System.getProperty("user.home");
+        new File(homeFolder + "/TerminalOS-Data/Applications").mkdirs();
+        new File(homeFolder + "/TerminalOS-Data/SystemApps").mkdirs();
+        new File(homeFolder + "/TerminalOS-Data/Resources").mkdirs();
+        new File(homeFolder + "/TerminalOS-Data/Settings").mkdirs();
         try { //create login txt
-            File login = new File("./TerminalOS/Settings/login.txt");
+            File login = new File(homeFolder + "/TerminalOS-Data/Settings/login.txt");
             if (login.createNewFile()) {
                 System.out.println("File created: " + login.getName());
             } else {
@@ -193,9 +202,10 @@ public class Main extends JFrame {
 
     // Built in Login Application..
     static void login() throws IOException, InterruptedException, URISyntaxException {
-        new File("./TerminalOS/Settings").mkdirs();
+        String homeFolder = System.getProperty("user.home");
+        new File(homeFolder + "/TerminalOS-Data/Settings").mkdirs();
         try { //create login txt
-            File login = new File("./TerminalOS/Settings/login.txt");
+            File login = new File(homeFolder + "/TerminalOS-Data/Settings/login.txt");
             if (login.createNewFile()) {
             } else {
             }
@@ -204,7 +214,7 @@ public class Main extends JFrame {
             e.printStackTrace();
         }
         cls();
-        BufferedReader brTest = new BufferedReader(new FileReader("./TerminalOS/Settings/login.txt"));
+        BufferedReader brTest = new BufferedReader(new FileReader(homeFolder + "/TerminalOS-Data/Settings/login.txt"));
         String pass = brTest.readLine();
         logoTOSlogo();
         if (pass == null) {
@@ -212,7 +222,7 @@ public class Main extends JFrame {
             Scanner Input = new Scanner(System.in);  // Create a Scanner object
             System.out.println("  Listening > ");
             String inputpass = Input.nextLine(); // Read user input
-            PrintWriter writepass = new PrintWriter("./TerminalOS/Settings/login.txt", "UTF-8");
+            PrintWriter writepass = new PrintWriter(homeFolder + "/TerminalOS-Data/Settings/login.txt", "UTF-8");
             writepass.println(inputpass);
             writepass.close();
             cls();
@@ -250,7 +260,6 @@ public class Main extends JFrame {
     static void SystemInfo() throws IOException, InterruptedException, URISyntaxException {
         cls();
         final String os = System.getProperty("os.name"); //detect OS
-        String currentDirectory = System.getProperty("user.dir");
         SystemInfo si = new SystemInfo();
         HardwareAbstractionLayer hal = si.getHardware();
         CentralProcessor cpu = hal.getProcessor();
@@ -280,14 +289,16 @@ public class Main extends JFrame {
         System.out.println("???????????7.       ");
         seperator();
         if (os.contains("Windows")) {
-            System.out.println("TerminalOS Directory: " + currentDirectory + "\\TerminalOS");
+            String homeFolder = System.getProperty("user.home");
+            System.out.println("TerminalOS Directory: " + homeFolder + "\\TerminalOS");
         } else {
-            System.out.println("TerminalOS Directory: " + currentDirectory + "/TerminalOS");
+            String homeFolder = System.getProperty("user.home");
+            System.out.println("TerminalOS Directory: " + homeFolder + "./TerminalOS");
         }
         System.out.println("Current User: " + userName);
         seperator();
         logo();
-        System.out.println("\n TerminalOS Version: " + Color.BLUE_BRIGHT + "TerminalOS v0.1.2" + Color.RESET);
+        System.out.println("\n TerminalOS Version: " + Color.BLUE_BRIGHT + "TerminalOS v0.1.3 - Git Update" + Color.RESET);
 
         Scanner Input = new Scanner(System.in);  // User Input
         smolpause();
@@ -303,6 +314,7 @@ public class Main extends JFrame {
         cls();
         settingslogo();
         System.out.println("\n M > Return to Main Menu\n\n TerminalOSJ Settings:\n\n P > Reset TerminalOS Password\n S > System Information");
+        System.out.println(" U > " + Color.RED_BRIGHT + "[EXPERIMENTAL]" + Color.RESET + " Update TerminalOS from git\n" + Color.RED_BRIGHT + "    ^ Requires git installed, and the JAR to be located in (user folder)/TerminalOS-updates" + Color.RESET);
         Scanner Input = new Scanner(System.in);  // Create a Scanner object
         System.out.println("\n  Listening > ");
         String rawuserinput = Input.nextLine(); // Read user input
@@ -310,16 +322,19 @@ public class Main extends JFrame {
         String mainmenu = "M";
         String resetpass = "P";
         String SystemInfo = "S";
+        String Update = "U";
         if (userinput.equals(mainmenu)) {
             mainmenu();
         }else if (userinput.equals(resetpass)) {
             //String fileName = "./TerminalOSJ/Settings/login.txt";
-            PrintWriter writepass = new PrintWriter("./TerminalOS/Settings/login.txt", "UTF-8");
+            String homeFolder = System.getProperty("user.home");
+            PrintWriter writepass = new PrintWriter(homeFolder + "/TerminalOS-Data/Settings/login.txt", "UTF-8");
             writepass.print("");
             writepass.close();
             login();
         }else if (userinput.equals(SystemInfo)) {
             SystemInfo();
+        }else if (userinput.equals(Update)) {
         }else{
             Settings();
         }
@@ -550,7 +565,8 @@ public class Main extends JFrame {
     }
     public static void apps() throws IOException {
         //Creating a File object for directory
-        File directoryPath = new File("./TerminalOS/Applications");
+        String homeFolder = System.getProperty("user.home");
+        File directoryPath = new File(homeFolder + "/TerminalOS-Data/Applications");
         FilenameFilter batFilefilter = new FilenameFilter(){
             public boolean accept(File dir, String name) {
                 String lowercaseName = name.toLowerCase();
@@ -568,8 +584,10 @@ public class Main extends JFrame {
         }
     }
     public static void bapps() throws IOException {
+
         //Creating a File object for directory
-        File directoryPath = new File("./TerminalOS/Applications");
+        String homeFolder = System.getProperty("user.home");
+        File directoryPath = new File(homeFolder + "/TerminalOS-Data/Applications");
         FilenameFilter batFilefilter = new FilenameFilter(){
             public boolean accept(File dir, String name) {
                 String lowercaseName = name.toLowerCase();
