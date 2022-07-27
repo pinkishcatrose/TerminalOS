@@ -11,10 +11,8 @@ import java.nio.file.Path;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import oshi.software.os.OperatingSystem;
-import org.apache.commons.io.FileUtils;
 
 import javax.swing.JFrame;
-import com.terminalosj.gui.GUI;
 
 public class Main extends JFrame {
     // Managing Scripts
@@ -151,7 +149,6 @@ public class Main extends JFrame {
         System.out.println("\n What would you like to do?\n\n");
         System.out.println(" A > Open Applications Folder");
         System.out.println(" S > " + Color.RED_BRIGHT + "[EXPERIMENTAL]" + Color.RESET + " Settings Menu\n");
-        System.out.println(" G > " + Color.RED_BACKGROUND_BRIGHT + " -- [ALPHA] -- " + Color.RESET + " Launch TerminalOS G\n");
         final String ops = System.getProperty("os.name");
         if (ops.contains("Windows")) {
             bapps();
@@ -163,7 +160,6 @@ public class Main extends JFrame {
         String userinput = rawuserinput.replaceAll("\\s", "\\\\ ");
         String openapps = "A";
         String Settings = "S";
-        String TOSG = "G";
         if (userinput.equals(openapps)) {
             File file = new File ("./TerminalOS/Applications");
             Desktop desktop = Desktop.getDesktop();
@@ -172,10 +168,6 @@ public class Main extends JFrame {
         }
         if (userinput.equals(Settings)) {
             Settings();
-        }
-        if (userinput.equals(TOSG)) {
-            GUI bGUI = new GUI();
-            bGUI.bGUI();
         } else { // this launches user selected jar / bat
             if (userinput.endsWith(".bat")) {
                 final String os = System.getProperty("os.name");
@@ -336,9 +328,6 @@ public class Main extends JFrame {
             Settings();
         }
     }
-
-    // ALPHA GUI
-
 
     // -- LIBRARIES --
     // big ASCII
