@@ -148,7 +148,7 @@ public class Main extends JFrame {
         menulogo();
         System.out.println("\n What would you like to do?\n\n");
         System.out.println(" A > Open Applications Folder");
-        System.out.println(" S > " + Color.RED_BRIGHT + "[EXPERIMENTAL]" + Color.RESET + " Settings Menu\n");
+        System.out.println(" S > Settings Menu\n");
         final String ops = System.getProperty("os.name");
         if (ops.contains("Windows")) {
             bapps();
@@ -161,10 +161,12 @@ public class Main extends JFrame {
         String openapps = "A";
         String Settings = "S";
         if (userinput.equals(openapps)) {
-            File file = new File ("./TerminalOS/Applications");
+            String homeFolder = System.getProperty("user.home");
+            File file = new File (homeFolder + "/TerminalOS-Data/Applications");
             Desktop desktop = Desktop.getDesktop();
             desktop.open(file);
             cls();
+            mainmenu();
         }
         if (userinput.equals(Settings)) {
             Settings();
@@ -290,7 +292,7 @@ public class Main extends JFrame {
         System.out.println("Current User: " + userName);
         seperator();
         logo();
-        System.out.println("\n TerminalOS Version: " + Color.BLUE_BRIGHT + "TerminalOS v0.1.3 - Git Update" + Color.RESET);
+        System.out.println("\n TerminalOS Version: " + Color.BLUE_BRIGHT + Info.VERSION + Color.RESET);
 
         Scanner Input = new Scanner(System.in);  // User Input
         smolpause();
@@ -668,6 +670,20 @@ public class Main extends JFrame {
         private final String code;
 
         Color(String code) {
+            this.code = code;
+        }
+
+        @Override
+        public String toString() {
+            return code;
+        }
+    }
+    enum Info {
+        VERSION("TerminalOS v0.1.3 (Beta Release 1)");
+
+        private final String code;
+
+        Info(String code) {
             this.code = code;
         }
 
