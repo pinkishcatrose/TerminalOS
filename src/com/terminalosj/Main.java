@@ -146,9 +146,10 @@ public class Main extends JFrame {
     static void mainmenu() throws IOException, InterruptedException, URISyntaxException { // Main Menu Method
         cls();
         menulogo();
-        System.out.println("\n What would you like to do?\n\n");
-        System.out.println(" A > Open Applications Folder");
-        System.out.println(" S > Settings Menu\n");
+        System.out.println("\n What would you like to do?\n\n ");
+        System.out.println(Color.RED + " X > Exit TerminalOS" + Color.RESET);
+        System.out.println(" S > Settings Menu");
+        System.out.println(" A > Open Applications Folder\n");
         final String ops = System.getProperty("os.name");
         if (ops.contains("Windows")) {
             bapps();
@@ -160,6 +161,7 @@ public class Main extends JFrame {
         String userinput = rawuserinput.replaceAll("\\s", "\\\\ ");
         String openapps = "A";
         String Settings = "S";
+        String Exit = "X";
         if (userinput.equals(openapps)) {
             String homeFolder = System.getProperty("user.home");
             File file = new File (homeFolder + "/TerminalOS-Data/Applications");
@@ -170,12 +172,15 @@ public class Main extends JFrame {
         }
         if (userinput.equals(Settings)) {
             Settings();
+        } else if (userinput.equals(Exit)) {
+            cls();
+            System.exit(0);
         } else { // this launches user selected jar / bat
             if (userinput.endsWith(".bat")) {
                 final String os = System.getProperty("os.name");
                 if (os.contains("Windows")) {
-                    String currentDirectory = System.getProperty("user.dir");
-                    new ProcessBuilder("cmd", "/c", "call \"" + currentDirectory + "\\TerminalOS\\Applications\\" + userinput + "\"").inheritIO().start().waitFor();
+                    String homeFolder = System.getProperty("user.home");
+                    new ProcessBuilder("cmd", "/c", "call \"" + homeFolder + "\\TerminalOS-Data\\Applications\\" + userinput + "\"").inheritIO().start().waitFor();
                     new ProcessBuilder("cmd", "/c", "title TerminalOS").inheritIO().start().waitFor();
                     System.out.print(Color.RESET);
                 }
@@ -184,10 +189,12 @@ public class Main extends JFrame {
                 cls();
                 final String os = System.getProperty("os.name");
                 if (os.contains("Windows")) {
-                    new ProcessBuilder("cmd", "/c", "java -jar \"./TerminalOS/Applications/" + userinput + "\"").inheritIO().start().waitFor();
+                    String homeFolder = System.getProperty("user.home");
+                    new ProcessBuilder("cmd", "/c", "java -jar \"" + homeFolder + "\\TerminalOS-Data\\Applications\\" + userinput + "\"").inheritIO().start().waitFor();
                 } else {
+                    String homeFolder = System.getProperty("user.home");
                     ProcessBuilder processBuilder = new ProcessBuilder();
-                    processBuilder.command("bash", "-c", "java -jar ./TerminalOS/Applications/" + userinput).inheritIO().start().waitFor();
+                    processBuilder.command("bash", "-c", "java -jar " + homeFolder + "/TerminalOS-Data/Applications/" + userinput).inheritIO().start().waitFor();
                 }
             }
         }
@@ -679,7 +686,7 @@ public class Main extends JFrame {
         }
     }
     enum Info {
-        VERSION("TerminalOS v0.1.3 (Beta Release 1)");
+        VERSION("TerminalOS v0.1.3");
 
         private final String code;
 
