@@ -1,4 +1,4 @@
-package com.terminalosj;
+package com.terminalos;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.HardwareAbstractionLayer;
