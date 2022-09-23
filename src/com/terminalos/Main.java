@@ -54,6 +54,10 @@ public class Main {
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
         cls();
 
+        // Set TerminalOS version
+        PrintWriter writepass = new PrintWriter(homeFolder + "/TerminalOS-Data/Resources/version.txt", "UTF-8");
+        writepass.println(Info.VERSION);
+        writepass.close();
     }
 
     // Built in Login Application..
@@ -116,15 +120,13 @@ public class Main {
     static void mainmenu() throws IOException, InterruptedException, URISyntaxException { // Main Menu Method
         cls();
         menulogo();
-        System.out.println("\n What would you like to do?\n\n ");
+        System.out.println("\n What would you like to do?\n");
+        System.out.println(" Built in Applications:\n");
+        System.out.println(" S > Settings");
+        System.out.println(" A > Application Manager\n");
+        System.out.println(" Functions:\n");
         System.out.println(Color.RED + " X > Exit TerminalOS" + Color.RESET);
-        System.out.println(" S > Settings Menu");
-        System.out.println(" A > Open Applications Folder\n");
         final String ops = System.getProperty("os.name");
-        if (ops.contains("Windows")) {
-            bapps();
-        }
-        apps();
         Scanner Input = new Scanner(System.in);  // Create a Scanner object
         System.out.println("\n  Listening > ");
         String rawuserinput = Input.next(); // Read user input
@@ -133,15 +135,32 @@ public class Main {
         String Settings = "S";
         String Exit = "X";
         if (userinput.equals(openapps)) {
-            String homeFolder = System.getProperty("user.home");
-            File file = new File (homeFolder + "/TerminalOS-Data/Applications");
-            Desktop desktop = Desktop.getDesktop();
-            desktop.open(file);
-            cls();
-            mainmenu();
+            final String os = System.getProperty("os.name");
+            if (os.contains("Windows")) {
+                String homeFolder = System.getProperty("user.home");
+                new ProcessBuilder("cmd", "/c", "java -jar \"" + homeFolder + "\\TerminalOS-Data\\SystemApps\\ApplicationManager.jar\"").inheritIO().start().waitFor();
+            } else {
+                String homeFolder = System.getProperty("user.home");
+                ProcessBuilder processBuilder = new ProcessBuilder();
+                processBuilder.command("bash", "-c", "java -jar " + homeFolder + "/TerminalOS-Data/SystemApps/ApplicationManager.jar").inheritIO().start().waitFor();
+            }
+            //String homeFolder = System.getProperty("user.home");
+            //File file = new File (homeFolder + "/TerminalOS-Data/Applications");
+            //Desktop desktop = Desktop.getDesktop();
+            //desktop.open(file);
+            //cls();
+            //mainmenu();
         }
         if (userinput.equals(Settings)) {
-            Settings();
+            final String os = System.getProperty("os.name");
+            if (os.contains("Windows")) {
+                String homeFolder = System.getProperty("user.home");
+                new ProcessBuilder("cmd", "/c", "java -jar \"" + homeFolder + "\\TerminalOS-Data\\SystemApps\\Settings.jar\"").inheritIO().start().waitFor();
+            } else {
+                String homeFolder = System.getProperty("user.home");
+                ProcessBuilder processBuilder = new ProcessBuilder();
+                processBuilder.command("bash", "-c", "java -jar " + homeFolder + "/TerminalOS-Data/SystemApps/Settings.jar").inheritIO().start().waitFor();
+            }
         } else if (userinput.equals(Exit)) {
             cls();
             System.exit(0);
@@ -171,83 +190,6 @@ public class Main {
         mainmenu();
     }
     // Built in System Information application..
-    static void SystemInfo() throws IOException, InterruptedException, URISyntaxException {
-        cls();
-        final String os = System.getProperty("os.name"); //detect OS
-        SystemInfo si = new SystemInfo();
-        HardwareAbstractionLayer hal = si.getHardware();
-        CentralProcessor cpu = hal.getProcessor();
-        String cpuid = cpu.getProcessorIdentifier().getName();
-        double diskSizeB = new File("/").getTotalSpace();
-        String userName = System.getProperty("user.name");
-        double memorySizeB = ((com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getTotalPhysicalMemorySize();
-        //memory math
-        double memorySizeDivide = 1024;
-        double memorySizeK = memorySizeB / memorySizeDivide;
-        double memorySizeM = memorySizeK / memorySizeDivide;
-        double memorysizeG = memorySizeM / memorySizeDivide;
-        //disk math
-        double diskSizeK = diskSizeB / memorySizeDivide;
-        double diskSizeM = diskSizeK / memorySizeDivide;
-        double diskSizeG = diskSizeM / memorySizeDivide;
-        SystemInfo systemInfo = new SystemInfo();
-        OperatingSystem operatingSystem = systemInfo.getOperatingSystem();
-        System.out.println("       .7???????????" + Color.CYAN_BRIGHT + "    CPU Model: " + cpuid  + Color.RESET);
-        System.out.println("        !!!!!!!!????" + Color.CYAN_BOLD_BRIGHT + "        - Core Count: " + Runtime.getRuntime().availableProcessors() + Color.RESET);
-        System.out.println("               .7???" + Color.MAGENTA_BRIGHT + "    System Memory: " + Math.round(memorySizeM) + " MB" + Color.RESET);
-        System.out.println("^^^^    :^^:   .7???" + Color.MAGENTA_BOLD_BRIGHT + "        - " + Math.round(memorysizeG) + " GB" + Color.RESET);
-        System.out.println("????.  .????.  .????" + Color.YELLOW_BRIGHT + "    System Storage: " + Math.round(diskSizeM) + " MB" +Color.RESET);
-        System.out.println("???7.   :^^^    ^^^^" + Color.YELLOW_BRIGHT + "        - " + Math.round(diskSizeG) + " GB" + Color.RESET);
-        System.out.println("???7.               "+ Color.GREEN_BRIGHT + "    Host OS: " + operatingSystem.toString() + Color.RESET);
-        System.out.println("????!!!!!!!!        ");
-        System.out.println("???????????7.       ");
-        seperator();
-        if (os.contains("Windows")) {
-            String homeFolder = System.getProperty("user.home");
-            System.out.println("TerminalOS Directory: " + homeFolder + "\\TerminalOS");
-        } else {
-            String homeFolder = System.getProperty("user.home");
-            System.out.println("TerminalOS Directory: " + homeFolder + "./TerminalOS");
-        }
-        System.out.println("Current User: " + userName);
-        seperator();
-        logo();
-        System.out.println("\n TerminalOS Version: " + Color.BLUE_BRIGHT + Info.VERSION + Color.RESET);
-
-        Scanner Input = new Scanner(System.in);  // User Input
-        smolpause();
-        System.out.println("\n  Press Enter to go back to Settings Menu > ");
-        String rawuserinput = Input.nextLine(); // Read user input
-        String userinput = rawuserinput.replaceAll("\\s", "\\\\ ");
-        Settings();
-    }
-    // Built in Settings application..
-    static void Settings() throws IOException, URISyntaxException, InterruptedException {
-        cls();
-        settingslogo();
-        System.out.println("\n M > Return to Main Menu\n\n TerminalOSJ Settings:\n\n P > Reset TerminalOS Password\n S > System Information");
-        Scanner Input = new Scanner(System.in);  // Create a Scanner object
-        System.out.println("\n  Listening > ");
-        String rawuserinput = Input.nextLine(); // Read user input
-        String userinput = rawuserinput.replaceAll("\\s", "\\\\ ");
-        String mainmenu = "M";
-        String resetpass = "P";
-        String SystemInfo = "S";
-        if (userinput.equals(mainmenu)) {
-            mainmenu();
-        }else if (userinput.equals(resetpass)) {
-            //String fileName = "./TerminalOSJ/Settings/login.txt";
-            String homeFolder = System.getProperty("user.home");
-            PrintWriter writepass = new PrintWriter(homeFolder + "/TerminalOS-Data/Settings/login.txt", "UTF-8");
-            writepass.print("");
-            writepass.close();
-            login();
-        }else if (userinput.equals(SystemInfo)) {
-            SystemInfo();
-        }else{
-            Settings();
-        }
-    }
 
     // -- LIBRARIES --
     // big ASCII
@@ -511,6 +453,22 @@ public class Main {
         }
         System.out.println("");
     }
+    public static void getVersion() throws IOException, InterruptedException {
+        String homeFolder = System.getProperty("user.home");
+        new File(homeFolder + "/TerminalOS-Data/Resources").mkdirs();
+        try { //create version
+            File login = new File(homeFolder + "/TerminalOS-Data/Resources/version.txt");
+            if (login.createNewFile()) {
+            } else {
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        BufferedReader brTest = new BufferedReader(new FileReader(homeFolder + "/TerminalOS-Data/Resources/version.txt"));
+        String version = brTest.readLine();
+        System.out.println("\n TerminalOS Version: " + Color.BLUE_BRIGHT + version + Color.RESET);
+    }
     enum Color {
         //Color end string, color reset
         RESET("\033[0m"),
@@ -597,7 +555,7 @@ public class Main {
         }
     }
     enum Info {
-        VERSION("TerminalOS v0.1.3.1 Beta");
+        VERSION("v0.1.3.1 Beta");
 
         private final String code;
 
