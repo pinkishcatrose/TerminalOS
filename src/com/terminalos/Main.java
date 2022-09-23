@@ -14,7 +14,7 @@ import oshi.software.os.OperatingSystem;
 
 import javax.swing.JFrame;
 
-public class Main extends JFrame {
+public class Main {
     // Managing Scripts
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
 
@@ -142,6 +142,62 @@ public class Main extends JFrame {
 
     }
 
+    // Built in Login Application..
+    static void login() throws IOException, InterruptedException, URISyntaxException {
+        String homeFolder = System.getProperty("user.home");
+        new File(homeFolder + "/TerminalOS-Data/Settings").mkdirs();
+        try { //create login txt
+            File login = new File(homeFolder + "/TerminalOS-Data/Settings/login.txt");
+            if (login.createNewFile()) {
+            } else {
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        cls();
+        BufferedReader brTest = new BufferedReader(new FileReader(homeFolder + "/TerminalOS-Data/Settings/login.txt"));
+        String pass = brTest.readLine();
+        logoTOSlogo();
+        if (pass == null) {
+            System.out.println("\n\n Welcome to the Password Creation Menu\n Please enter your desired password:\n");
+            Scanner Input = new Scanner(System.in);  // Create a Scanner object
+            System.out.println("  Listening > ");
+            String inputpass = Input.nextLine(); // Read user input
+            PrintWriter writepass = new PrintWriter(homeFolder + "/TerminalOS-Data/Settings/login.txt", "UTF-8");
+            writepass.println(inputpass);
+            writepass.close();
+            cls();
+            System.out.print(Color.GREEN_BRIGHT);
+            logoTOSlogo();
+            System.out.println(" \n\n-- Password created --" + Color.RESET);
+            onesecondpause();
+            onesecondpause();
+            login();
+        } else {
+            System.out.println("\n\n Please enter your password:\n");
+            Scanner Input = new Scanner(System.in);  // Create a Scanner object
+            System.out.println("  Listening > ");
+            String inputpass = Input.nextLine(); // Read user input
+            if (inputpass.equals(pass)) {
+                cls();
+                System.out.print(Color.GREEN_BRIGHT + "\r");
+                logoTOSlogo();
+                System.out.println(" \n\n-- Access Granted --" + Color.RESET);
+                onesecondpause();
+                onesecondpause();
+                mainmenu();
+            } else {
+                cls();
+                System.out.print(Color.RED_BRIGHT);
+                logoTOSlogo();
+                System.out.println(" \n\n-- Access Denied --" + Color.RESET);
+                onesecondpause();
+                onesecondpause();
+                login();
+            }
+        }
+    }
     //Main Menu Application
     static void mainmenu() throws IOException, InterruptedException, URISyntaxException { // Main Menu Method
         cls();
@@ -200,63 +256,6 @@ public class Main extends JFrame {
         }
         mainmenu();
     }
-
-    // Built in Login Application..
-    static void login() throws IOException, InterruptedException, URISyntaxException {
-        String homeFolder = System.getProperty("user.home");
-        new File(homeFolder + "/TerminalOS-Data/Settings").mkdirs();
-        try { //create login txt
-            File login = new File(homeFolder + "/TerminalOS-Data/Settings/login.txt");
-            if (login.createNewFile()) {
-            } else {
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        cls();
-        BufferedReader brTest = new BufferedReader(new FileReader(homeFolder + "/TerminalOS-Data/Settings/login.txt"));
-        String pass = brTest.readLine();
-        logoTOSlogo();
-        if (pass == null) {
-            System.out.println("\n\n Welcome to the Password Creation Menu\n Please enter your desired password:\n");
-            Scanner Input = new Scanner(System.in);  // Create a Scanner object
-            System.out.println("  Listening > ");
-            String inputpass = Input.nextLine(); // Read user input
-            PrintWriter writepass = new PrintWriter(homeFolder + "/TerminalOS-Data/Settings/login.txt", "UTF-8");
-            writepass.println(inputpass);
-            writepass.close();
-            cls();
-            System.out.print(Color.GREEN_BRIGHT);
-            logoTOSlogo();
-            System.out.println(" \n\n-- Password created --" + Color.RESET);
-            onesecondpause();
-            onesecondpause();
-            login();
-        } else {
-            System.out.println("\n\n Please enter your password:\n");
-            Scanner Input = new Scanner(System.in);  // Create a Scanner object
-            System.out.println("  Listening > ");
-            String inputpass = Input.nextLine(); // Read user input
-            if (inputpass.equals(pass)) {
-                cls();
-                System.out.print(Color.GREEN_BRIGHT + "\r");
-                logoTOSlogo();
-                System.out.println(" \n\n-- Access Granted --" + Color.RESET);
-                onesecondpause();
-                onesecondpause();
-                mainmenu();
-            } else {
-                cls();
-                System.out.print(Color.RED_BRIGHT);
-                logoTOSlogo();
-                System.out.println(" \n\n-- Access Denied --" + Color.RESET);
-                onesecondpause();
-                onesecondpause();
-                login();
-            }
-        }
-    }
     // Built in System Information application..
     static void SystemInfo() throws IOException, InterruptedException, URISyntaxException {
         cls();
@@ -308,8 +307,6 @@ public class Main extends JFrame {
         String userinput = rawuserinput.replaceAll("\\s", "\\\\ ");
         Settings();
     }
-
-
     // Built in Settings application..
     static void Settings() throws IOException, URISyntaxException, InterruptedException {
         cls();
@@ -686,7 +683,7 @@ public class Main extends JFrame {
         }
     }
     enum Info {
-        VERSION("TerminalOS v0.1.3");
+        VERSION("TerminalOS v0.1.3.1 Beta");
 
         private final String code;
 
