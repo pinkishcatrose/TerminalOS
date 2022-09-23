@@ -17,95 +17,9 @@ import javax.swing.JFrame;
 public class Main {
     // Managing Scripts
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
-
-        final String os = System.getProperty("os.name");
-        cls();
-        String home = System.getProperty("user.home");
-        File b = new File(home + "/LaunchTerminalOS.bat");
-        if (b.exists() && !b.isDirectory()) {
-        } else {
-            if (os.contains("Windows")) {
-                System.out.println("BATCH Launch Script not found...");
-                launchscripts();
-            } else {
-            }
-        }
-        File s = new File(home + "/Desktop/LaunchTerminalOS.sh");
-        if (s.exists() && !s.isDirectory()) {
-        } else {
-            if (os.contains("Windows")) {
-            } else {
-                System.out.println("SH Launch Script not found...");
-                launchscripts();
-            }
-        }
-        methodlist();
-    }
-    static void methodlist() throws IOException, InterruptedException, URISyntaxException {
         startup();
         login();
         mainmenu();
-    }
-    static void launchscripts() throws URISyntaxException, IOException, InterruptedException {
-        String homeFolder = System.getProperty("user.home");
-        final String os = System.getProperty("os.name"); //detect OS
-        if (os.contains("Windows")) {
-            try { //create startup scripts for windows
-                String jarPath = Main.class
-                    .getProtectionDomain()
-                    .getCodeSource()
-                    .getLocation()
-                    .toURI()
-                    .getPath();
-            String jarPath2 = jarPath.substring(1);
-                File logo = new File(homeFolder + "\\LaunchTerminalOS.bat");
-                if (logo.createNewFile()) {
-                } else {
-                    System.out.println("BATCH Launch File created in users home directory");
-                }
-            } catch (IOException e) {
-                System.out.println("Failed to create startup script");
-                e.printStackTrace();
-            }
-            // get JAR directory
-            String jarPath = Main.class
-                    .getProtectionDomain()
-                    .getCodeSource()
-                    .getLocation()
-                    .toURI()
-                    .getPath();
-            String jarPath2 = jarPath.substring(1);
-            Path batfileName = Path.of(homeFolder + "\\LaunchTerminalOS.bat");
-            String content  = "@echo off\ntitle TerminalOS\njava -jar \"" + jarPath2 + "\"\npause";
-            Files.writeString(batfileName, content);
-            String actual = Files.readString(batfileName);
-
-        } else {
-            try { //create startup script for mac/linux
-                File logo = new File(homeFolder + "/Desktop/LaunchTerminalOS.sh");
-                if (logo.createNewFile()) {
-                    System.out.println("SH Launch File created on users Desktop.");
-                } else {
-                }
-            } catch (IOException e) {
-                System.out.println("Failed to create setup file");
-                e.printStackTrace();
-            }
-            // get JAR directory
-            String jarPath0 = Main.class
-                    .getProtectionDomain()
-                    .getCodeSource()
-                    .getLocation()
-                    .toURI()
-                    .getPath();
-            String jarPath = jarPath0.replaceAll("\\s", "\\\\ ");
-            Path shfileName = Path.of(homeFolder + "/Desktop/LaunchTerminalOS.sh");
-            String content  = "#!/bin/sh\necho -n -e \"\\033]0;TerminalOS\\007\"\njava -jar " + jarPath;
-            Files.writeString(shfileName, content);
-            String actual = Files.readString(shfileName);
-        }
-        System.exit(0);
-
     }
     static void startup() throws IOException, InterruptedException {
 
