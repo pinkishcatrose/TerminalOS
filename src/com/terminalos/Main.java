@@ -123,7 +123,7 @@ public class Main {
         System.out.println("\n What would you like to do?\n");
         System.out.println(" Built in Applications:\n");
         System.out.println(" S > Settings");
-        System.out.println(" A > Application Manager\n");
+        System.out.println(" A > AMGR (Application Manager)\n");
         System.out.println(" Functions:\n");
         System.out.println(Color.RED + " X > Exit TerminalOS" + Color.RESET);
         final String ops = System.getProperty("os.name");
@@ -138,11 +138,11 @@ public class Main {
             final String os = System.getProperty("os.name");
             if (os.contains("Windows")) {
                 String homeFolder = System.getProperty("user.home");
-                new ProcessBuilder("cmd", "/c", "java -jar \"" + homeFolder + "\\TerminalOS-Data\\SystemApps\\ApplicationManager.jar\"").inheritIO().start().waitFor();
+                new ProcessBuilder("cmd", "/c", "java -jar \"" + homeFolder + "\\TerminalOS-Data\\SystemApps\\AMGR.jar\"").inheritIO().start().waitFor();
             } else {
                 String homeFolder = System.getProperty("user.home");
                 ProcessBuilder processBuilder = new ProcessBuilder();
-                processBuilder.command("bash", "-c", "java -jar " + homeFolder + "/TerminalOS-Data/SystemApps/ApplicationManager.jar").inheritIO().start().waitFor();
+                processBuilder.command("bash", "-c", "java -jar " + homeFolder + "/TerminalOS-Data/SystemApps/AMGR.jar").inheritIO().start().waitFor();
             }
             //String homeFolder = System.getProperty("user.home");
             //File file = new File (homeFolder + "/TerminalOS-Data/Applications");
@@ -150,8 +150,7 @@ public class Main {
             //desktop.open(file);
             //cls();
             //mainmenu();
-        }
-        if (userinput.equals(Settings)) {
+        } else if (userinput.equals(Settings)) {
             final String os = System.getProperty("os.name");
             if (os.contains("Windows")) {
                 String homeFolder = System.getProperty("user.home");
@@ -164,30 +163,9 @@ public class Main {
         } else if (userinput.equals(Exit)) {
             cls();
             System.exit(0);
-        } else { // this launches user selected jar / bat
-            if (userinput.endsWith(".bat")) {
-                final String os = System.getProperty("os.name");
-                if (os.contains("Windows")) {
-                    String homeFolder = System.getProperty("user.home");
-                    new ProcessBuilder("cmd", "/c", "call \"" + homeFolder + "\\TerminalOS-Data\\Applications\\" + userinput + "\"").inheritIO().start().waitFor();
-                    new ProcessBuilder("cmd", "/c", "title TerminalOS").inheritIO().start().waitFor();
-                    System.out.print(Color.RESET);
-                }
-            }
-            if (userinput.endsWith(".jar")) {
-                cls();
-                final String os = System.getProperty("os.name");
-                if (os.contains("Windows")) {
-                    String homeFolder = System.getProperty("user.home");
-                    new ProcessBuilder("cmd", "/c", "java -jar \"" + homeFolder + "\\TerminalOS-Data\\Applications\\" + userinput + "\"").inheritIO().start().waitFor();
-                } else {
-                    String homeFolder = System.getProperty("user.home");
-                    ProcessBuilder processBuilder = new ProcessBuilder();
-                    processBuilder.command("bash", "-c", "java -jar " + homeFolder + "/TerminalOS-Data/Applications/" + userinput).inheritIO().start().waitFor();
-                }
-            }
+        } else {
+            mainmenu();
         }
-        mainmenu();
     }
     // Built in System Information application..
 
