@@ -8,6 +8,7 @@ import java.lang.management.ManagementFactory;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import oshi.software.os.OperatingSystem;
@@ -17,6 +18,11 @@ import javax.swing.JFrame;
 public class Main {
     // Managing Scripts
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
+        String homeFolder = System.getProperty("user.home");
+        onesecondpause();
+        onesecondpause();
+        onesecondpause();
+        onesecondpause();
         startup();
         login();
         mainmenu();
@@ -63,19 +69,21 @@ public class Main {
     // Built in Login Application..
     static void login() throws IOException, InterruptedException, URISyntaxException {
         String homeFolder = System.getProperty("user.home");
-        new File(homeFolder + "/TerminalOS-Data/Settings").mkdirs();
-        try { //create login txt
-            File login = new File(homeFolder + "/TerminalOS-Data/Settings/login.txt");
+        try { //create user
+            File login = new File(homeFolder + "/TerminalOS/User.memory");
             if (login.createNewFile()) {
             } else {
             }
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
-        }
+        }//end user
         cls();
-        BufferedReader brTest = new BufferedReader(new FileReader(homeFolder + "/TerminalOS-Data/Settings/login.txt"));
-        String pass = brTest.readLine();
+        FileInputStream fs= new FileInputStream(homeFolder + "/TerminalOS/User.memory");
+        BufferedReader br = new BufferedReader(new InputStreamReader(fs));
+        for(int i = 0; i < 1; ++i)
+            br.readLine();
+        String pass = br.readLine();
         logoTOSlogo();
         if (pass == null) {
             System.out.println("\n\n Welcome to the Password Creation Menu\n Please enter your desired password:\n");
@@ -389,48 +397,6 @@ public class Main {
         smolpause2();
         System.out.println(" |_|  |_|\\___|_| |_|\\__,_|");
     }
-    public static void apps() throws IOException {
-        //Creating a File object for directory
-        String homeFolder = System.getProperty("user.home");
-        File directoryPath = new File(homeFolder + "/TerminalOS-Data/Applications");
-        FilenameFilter batFilefilter = new FilenameFilter(){
-            public boolean accept(File dir, String name) {
-                String lowercaseName = name.toLowerCase();
-                if (lowercaseName.endsWith(".jar")) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        };
-        String imageFilesList[] = directoryPath.list(batFilefilter);
-        System.out.println(" Installed JAR Apps:");
-        for(String fileName : imageFilesList) {
-            System.out.println("   " + fileName);
-        }
-    }
-    public static void bapps() throws IOException {
-
-        //Creating a File object for directory
-        String homeFolder = System.getProperty("user.home");
-        File directoryPath = new File(homeFolder + "/TerminalOS-Data/Applications");
-        FilenameFilter batFilefilter = new FilenameFilter(){
-            public boolean accept(File dir, String name) {
-                String lowercaseName = name.toLowerCase();
-                if (lowercaseName.endsWith(".bat")) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        };
-        String imageFilesList[] = directoryPath.list(batFilefilter);
-        System.out.println(" Installed Batch Apps:");
-        for(String fileName : imageFilesList) {
-            System.out.println("   " + fileName);
-        }
-        System.out.println("");
-    }
     public static void getVersion() throws IOException, InterruptedException {
         String homeFolder = System.getProperty("user.home");
         new File(homeFolder + "/TerminalOS-Data/Resources").mkdirs();
@@ -533,7 +499,7 @@ public class Main {
         }
     }
     enum Info {
-        VERSION("v0.1.3.1 Beta");
+        VERSION("v0.1.3.2 Beta");
 
         private final String code;
 
