@@ -144,7 +144,7 @@ public class Main {
             final String os = System.getProperty("os.name");
             if (os.contains("Windows")) {
                 String homeFolder = System.getProperty("user.home");
-                new ProcessBuilder("cmd", "/c", "java -jar \"" + homeFolder + "\\TerminalOS\\SystemApps\\AMGR.jar\"").inheritIO().start().waitFor();
+                new ProcessBuilder("cmd", "/c", "java -jar \"" + homeFolder + "\\TerminalOS\\SystemApps\\AMGR.app\"").inheritIO().start().waitFor();
             } else {
                 String homeFolder = System.getProperty("user.home");
                 ProcessBuilder processBuilder = new ProcessBuilder();
@@ -158,7 +158,7 @@ public class Main {
             } else {
                 String homeFolder = System.getProperty("user.home");
                 ProcessBuilder processBuilder = new ProcessBuilder();
-                processBuilder.command("bash", "-c", "java -jar " + homeFolder + "/TerminalOS/SystemApps/Settings.jar").inheritIO().start().waitFor();
+                processBuilder.command("bash", "-c", "java -jar " + homeFolder + "/TerminalOS/SystemApps/Settings.app").inheritIO().start().waitFor();
             }
         } else if (userinput.equals(Exit)) {
             cls();
