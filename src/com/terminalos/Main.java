@@ -18,11 +18,6 @@ import javax.swing.JFrame;
 public class Main {
     // Managing Scripts
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
-        String homeFolder = System.getProperty("user.home");
-        onesecondpause();
-        onesecondpause();
-        onesecondpause();
-        onesecondpause();
         startup();
         login();
         mainmenu();
@@ -42,12 +37,15 @@ public class Main {
 
         //perform first time setup or replace missing files
         String homeFolder = System.getProperty("user.home");
-        new File(homeFolder + "/TerminalOS-Data/Applications").mkdirs();
-        new File(homeFolder + "/TerminalOS-Data/SystemApps").mkdirs();
-        new File(homeFolder + "/TerminalOS-Data/Resources").mkdirs();
-        new File(homeFolder + "/TerminalOS-Data/Settings").mkdirs();
-        try { //create login txt
-            File login = new File(homeFolder + "/TerminalOS-Data/Settings/login.txt");
+        new File(homeFolder + "/TerminalOS/ApplicationData").mkdirs();
+        new File(homeFolder + "/TerminalOS/Applications").mkdirs();
+        new File(homeFolder + "/TerminalOS/OS").mkdirs();
+        new File(homeFolder + "/TerminalOS/OS/Booter").mkdirs();
+        new File(homeFolder + "/TerminalOS/OS/Resources").mkdirs();
+        new File(homeFolder + "/TerminalOS/OS/SystemImages").mkdirs();
+        new File(homeFolder + "/TerminalOS/SystemApps").mkdirs();
+        try { //create login memory
+            File login = new File(homeFolder + "/TerminalOS/User.memory");
             if (login.createNewFile()) {
                 System.out.println("File created: " + login.getName());
             } else {
@@ -61,7 +59,7 @@ public class Main {
         cls();
 
         // Set TerminalOS version
-        PrintWriter writepass = new PrintWriter(homeFolder + "/TerminalOS-Data/Resources/version.txt", "UTF-8");
+        PrintWriter writepass = new PrintWriter(homeFolder + "/TerminalOS/OS/Resources/version.memory", "UTF-8");
         writepass.println(Info.VERSION);
         writepass.close();
     }
@@ -81,7 +79,7 @@ public class Main {
         cls();
         FileInputStream fs= new FileInputStream(homeFolder + "/TerminalOS/User.memory");
         BufferedReader br = new BufferedReader(new InputStreamReader(fs));
-        for(int i = 0; i < 1; ++i)
+        for(int i = 1; i < 1; ++i)
             br.readLine();
         String pass = br.readLine();
         logoTOSlogo();
@@ -90,7 +88,7 @@ public class Main {
             Scanner Input = new Scanner(System.in);  // Create a Scanner object
             System.out.println("  Listening > ");
             String inputpass = Input.nextLine(); // Read user input
-            PrintWriter writepass = new PrintWriter(homeFolder + "/TerminalOS-Data/Settings/login.txt", "UTF-8");
+            PrintWriter writepass = new PrintWriter(homeFolder + "/TerminalOS/User.memory", "UTF-8");
             writepass.println(inputpass);
             writepass.close();
             cls();
@@ -146,27 +144,21 @@ public class Main {
             final String os = System.getProperty("os.name");
             if (os.contains("Windows")) {
                 String homeFolder = System.getProperty("user.home");
-                new ProcessBuilder("cmd", "/c", "java -jar \"" + homeFolder + "\\TerminalOS-Data\\SystemApps\\AMGR.jar\"").inheritIO().start().waitFor();
+                new ProcessBuilder("cmd", "/c", "java -jar \"" + homeFolder + "\\TerminalOS\\SystemApps\\AMGR.jar\"").inheritIO().start().waitFor();
             } else {
                 String homeFolder = System.getProperty("user.home");
                 ProcessBuilder processBuilder = new ProcessBuilder();
-                processBuilder.command("bash", "-c", "java -jar " + homeFolder + "/TerminalOS-Data/SystemApps/AMGR.jar").inheritIO().start().waitFor();
+                processBuilder.command("bash", "-c", "java -jar " + homeFolder + "/TerminalOS/SystemApps/AMGR.app").inheritIO().start().waitFor();
             }
-            //String homeFolder = System.getProperty("user.home");
-            //File file = new File (homeFolder + "/TerminalOS-Data/Applications");
-            //Desktop desktop = Desktop.getDesktop();
-            //desktop.open(file);
-            //cls();
-            //mainmenu();
         } else if (userinput.equals(Settings)) {
             final String os = System.getProperty("os.name");
             if (os.contains("Windows")) {
                 String homeFolder = System.getProperty("user.home");
-                new ProcessBuilder("cmd", "/c", "java -jar \"" + homeFolder + "\\TerminalOS-Data\\SystemApps\\Settings.jar\"").inheritIO().start().waitFor();
+                new ProcessBuilder("cmd", "/c", "java -jar \"" + homeFolder + "\\TerminalOS\\SystemApps\\Settings.app\"").inheritIO().start().waitFor();
             } else {
                 String homeFolder = System.getProperty("user.home");
                 ProcessBuilder processBuilder = new ProcessBuilder();
-                processBuilder.command("bash", "-c", "java -jar " + homeFolder + "/TerminalOS-Data/SystemApps/Settings.jar").inheritIO().start().waitFor();
+                processBuilder.command("bash", "-c", "java -jar " + homeFolder + "/TerminalOS/SystemApps/Settings.jar").inheritIO().start().waitFor();
             }
         } else if (userinput.equals(Exit)) {
             cls();
@@ -399,19 +391,24 @@ public class Main {
     }
     public static void getVersion() throws IOException, InterruptedException {
         String homeFolder = System.getProperty("user.home");
-        new File(homeFolder + "/TerminalOS-Data/Resources").mkdirs();
+        new File(homeFolder + "/TerminalOS/OS/Resources").mkdirs();
         try { //create version
-            File login = new File(homeFolder + "/TerminalOS-Data/Resources/version.txt");
-            if (login.createNewFile()) {
+            File version = new File(homeFolder + "/TerminalOS/OS/Resources/version.memory");
+            if (version.createNewFile()) {
             } else {
             }
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        BufferedReader brTest = new BufferedReader(new FileReader(homeFolder + "/TerminalOS-Data/Resources/version.txt"));
+        BufferedReader brTest = new BufferedReader(new FileReader(homeFolder + "/TerminalOS/OS/Resources/version.memory"));
         String version = brTest.readLine();
-        System.out.println("\n TerminalOS Version: " + Color.BLUE_BRIGHT + version + Color.RESET);
+        if (version == null) {
+            System.out.println(" " + Color.RED_BACKGROUND + "\nCouldn't get TerminalOS Version" + Color.RESET);
+        } else {
+            System.out.println("\n System Version: " + Color.BLUE_BRIGHT + version + Color.RESET);
+        }
+
     }
     enum Color {
         //Color end string, color reset
