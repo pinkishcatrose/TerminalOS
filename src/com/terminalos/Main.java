@@ -29,12 +29,6 @@ public class Main {
             ProcessBuilder processBuilder = new ProcessBuilder();
             processBuilder.command("bash", "-c", "printf '\\e[8;40;150t'").inheritIO().start().waitFor();
         }
-        cls();
-        animlogoTOSlogo2();
-        System.out.println("\n Booting...\n");
-        loadingbar();
-        cls();
-
         //perform first time setup or replace missing files
         String homeFolder = System.getProperty("user.home");
         new File(homeFolder + "/TerminalOS/ApplicationData").mkdirs();
@@ -62,6 +56,12 @@ public class Main {
         PrintWriter writepass = new PrintWriter(homeFolder + "/TerminalOS/OS/Resources/version.memory", "UTF-8");
         writepass.println(Info.VERSION);
         writepass.close();
+        //fancy animated stuff
+        cls();
+        animlogoTOSlogo2();
+        System.out.println("\n Booting...\n");
+        loadingbar();
+        cls();
     }
 
     // Built in Login Application..
@@ -143,22 +143,66 @@ public class Main {
         if (userinput.equals(openapps)) {
             final String os = System.getProperty("os.name");
             if (os.contains("Windows")) {
+                cls();
+                logoTOSlogo();
+                System.out.println();
+                quickloadingbar();
+                cls();
                 String homeFolder = System.getProperty("user.home");
                 new ProcessBuilder("cmd", "/c", "java -jar \"" + homeFolder + "\\TerminalOS\\SystemApps\\AMGR.app\"").inheritIO().start().waitFor();
+                cls();
+                logoTOSlogo();
+                System.out.println();
+                quickloadingbar();
+                cls();
+                mainmenu();
             } else {
+                cls();
+                logoTOSlogo();
+                System.out.println();
+                quickloadingbar();
+                cls();
                 String homeFolder = System.getProperty("user.home");
                 ProcessBuilder processBuilder = new ProcessBuilder();
                 processBuilder.command("bash", "-c", "java -jar " + homeFolder + "/TerminalOS/SystemApps/AMGR.app").inheritIO().start().waitFor();
+                cls();
+                logoTOSlogo();
+                System.out.println();
+                quickloadingbar();
+                cls();
+                mainmenu();
             }
         } else if (userinput.equals(Settings)) {
             final String os = System.getProperty("os.name");
             if (os.contains("Windows")) {
+                cls();
+                logoTOSlogo();
+                System.out.println();
+                quickloadingbar();
+                cls();
                 String homeFolder = System.getProperty("user.home");
                 new ProcessBuilder("cmd", "/c", "java -jar \"" + homeFolder + "\\TerminalOS\\SystemApps\\Settings.app\"").inheritIO().start().waitFor();
+                cls();
+                logoTOSlogo();
+                System.out.println();
+                quickloadingbar();
+                cls();
+                mainmenu();
             } else {
+                cls();
+                logoTOSlogo();
+                System.out.println();
+                quickloadingbar();
+                cls();
                 String homeFolder = System.getProperty("user.home");
                 ProcessBuilder processBuilder = new ProcessBuilder();
                 processBuilder.command("bash", "-c", "java -jar " + homeFolder + "/TerminalOS/SystemApps/Settings.app").inheritIO().start().waitFor();
+                cls();
+                logoTOSlogo();
+                System.out.println();
+                quickloadingbar();
+                cls();
+                mainmenu();
             }
         } else if (userinput.equals(Exit)) {
             cls();
@@ -200,79 +244,149 @@ public class Main {
         System.out.println(" | |  | |  __/ | | | |_| |");
         System.out.println(" |_|  |_|\\___|_| |_|\\__,_|");
     }
+    public static void quickloadingbar() {
+        System.out.print("\r [                                 ]");
+        fasterrandompause();
+        System.out.print("\r [-                                ]");
+        fasterrandompause();
+        System.out.print("\r [--                               ]");
+        fasterrandompause();
+        System.out.print("\r [---                              ]");
+        fasterrandompause();
+        System.out.print("\r [----                             ]");
+        fasterrandompause();
+        System.out.print("\r [-----                            ]");
+        fasterrandompause();
+        System.out.print("\r [------                           ]");
+        fasterrandompause();
+        System.out.print("\r [-------                          ]");
+        fasterrandompause();
+        System.out.print("\r [-------                          ]");
+        fasterrandompause();
+        System.out.print("\r [--------                         ]");
+        fasterrandompause();
+        System.out.print("\r [---------                        ]");
+        fasterrandompause();
+        System.out.print("\r [----------                       ]");
+        fasterrandompause();
+        System.out.print("\r [-----------                      ]");
+        fasterrandompause();
+        System.out.print("\r [------------                     ]");
+        fasterrandompause();
+        System.out.print("\r [-------------                    ]");
+        fasterrandompause();
+        System.out.print("\r [--------------                   ]");
+        fasterrandompause();
+        System.out.print("\r [---------------                  ]");
+        fasterrandompause();
+        System.out.print("\r [----------------                 ]");
+        fasterrandompause();
+        System.out.print("\r [-----------------                ]");
+        fasterrandompause();
+        System.out.print("\r [------------------               ]");
+        fasterrandompause();
+        System.out.print("\r [-------------------              ]");
+        fasterrandompause();
+        System.out.print("\r [--------------------             ]");
+        fasterrandompause();
+        System.out.print("\r [---------------------            ]");
+        fasterrandompause();
+        System.out.print("\r [----------------------           ]");
+        fasterrandompause();
+        System.out.print("\r [-----------------------          ]");
+        fasterrandompause();
+        System.out.print("\r [------------------------         ]");
+        fasterrandompause();
+        System.out.print("\r [-------------------------        ]");
+        fasterrandompause();
+        System.out.print("\r [--------------------------       ]");
+        fasterrandompause();
+        System.out.print("\r [---------------------------      ]");
+        fasterrandompause();
+        System.out.print("\r [----------------------------     ]");
+        fasterrandompause();
+        System.out.print("\r [-----------------------------    ]");
+        fasterrandompause();
+        System.out.print("\r [------------------------------   ]");
+        fasterrandompause();
+        System.out.print("\r [-------------------------------  ]");
+        fasterrandompause();
+        System.out.print("\r [-------------------------------- ]");
+        fasterrandompause();
+        System.out.print("\r [---------------------------------]");
+        fasterrandompause();
+    }
     public static void loadingbar() {
         System.out.print("\r [                                 ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [-                                ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [--                               ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [---                              ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [----                             ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [-----                            ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [------                           ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [-------                          ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [-------                          ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [--------                         ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [---------                        ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [----------                       ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [-----------                      ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [------------                     ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [-------------                    ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [--------------                   ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [---------------                  ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [----------------                 ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [-----------------                ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [------------------               ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [-------------------              ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [--------------------             ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [---------------------            ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [----------------------           ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [-----------------------          ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [------------------------         ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [-------------------------        ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [--------------------------       ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [---------------------------      ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [----------------------------     ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [-----------------------------    ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [------------------------------   ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [-------------------------------  ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [-------------------------------- ]");
-        smolpause2();
+        randompause();
         System.out.print("\r [---------------------------------]");
-        smolpause2();
-        System.out.println("\n Done");
-        onesecondpause();
+        randompause();
     }
     public static void animlogo() {
         smolpause();
@@ -333,6 +447,22 @@ public class Main {
     static void onesecondpause() {
         try {
             TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    static void randompause() {
+        int random = (int)(Math.random() * 300 + 1);
+        try {
+            TimeUnit.MILLISECONDS.sleep(random);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    static void fasterrandompause() {
+        int random = (int)(Math.random() * 50 + 1);
+        try {
+            TimeUnit.MILLISECONDS.sleep(random);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

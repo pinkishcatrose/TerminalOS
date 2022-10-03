@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="TerminalOS:jar">
-    <output-path>$USER_HOME$/TerminalOS/OS/SystemImages/Bleeding Edge</output-path>
+    <output-path>$USER_HOME$/TerminalOS/OS/SystemImages/BleedingEdge</output-path>
     <root id="archive" name="TerminalOS.image">
       <element id="module-output" name="TerminalOS" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/oshi-core-6.1.4.jar" path-in-jar="/" />
